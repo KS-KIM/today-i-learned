@@ -17,14 +17,14 @@ public class UploadImageService {
 
     public String uploadImage(MultipartFile file) throws IOException {
         String originalFileName = Objects.requireNonNull(file.getOriginalFilename());
-        String randomFileName = generateRandomFileName(originalFileName);
+        String saveFileName = generateRandomFileName(originalFileName);
         InputStream inputStream = file.getInputStream();
-        UploadImageResponse uploadedFileUrl = imageUploader.upload(
-                new UploadImageRequest(inputStream, file.getSize(), randomFileName));
-        return uploadedFileUrl.getImageUrl();
+        imageUploader.upload(new UploadImageRequest(inputStream, file.getSize(), saveFileName));
+        return saveFileName;
     }
 
     private String generateRandomFileName(String originalFileName) {
-        return UUID.randomUUID() + originalFileName.substring(originalFileName.lastIndexOf("."));
+        String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+        return UUID.randomUUID() + extension;
     }
 }
