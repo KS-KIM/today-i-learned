@@ -5,6 +5,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.example.imageuploadapplication.image.application.ImageDownloader;
+import com.example.imageuploadapplication.image.application.ImageUploader;
+import com.example.imageuploadapplication.image.infra.AmazonS3ImageDownloader;
 import com.example.imageuploadapplication.image.infra.AmazonS3ImageUploader;
 
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
@@ -29,8 +32,13 @@ public class AmazonS3Configuration {
     private String bucket;
 
     @Bean
-    public AmazonS3ImageUploader amazonS3ImageUploader() {
+    public ImageUploader imageUploader() {
         return new AmazonS3ImageUploader(s3Client(), bucket);
+    }
+
+    @Bean
+    public ImageDownloader imageDownloader() {
+        return new AmazonS3ImageDownloader(s3Client(), bucket);
     }
 
     private S3Client s3Client() {

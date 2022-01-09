@@ -7,14 +7,22 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.example.imageuploadapplication.image.application.ImageDownloader;
+import com.example.imageuploadapplication.image.application.ImageUploader;
+import com.example.imageuploadapplication.image.infra.FileStorageImageDownloader;
 import com.example.imageuploadapplication.image.infra.FileStorageImageUploader;
 
 @Profile({"local", "dev"})
 @Configuration
 public class FileStorageImageUploaderConfiguration {
     @Bean
-    public FileStorageImageUploader fileStorageImageUploader() {
+    public ImageUploader fileStorageImageUploader() {
         return new FileStorageImageUploader(absolutePath());
+    }
+
+    @Bean
+    public ImageDownloader imageDownloader() {
+        return new FileStorageImageDownloader(absolutePath());
     }
 
     private Path absolutePath() {
