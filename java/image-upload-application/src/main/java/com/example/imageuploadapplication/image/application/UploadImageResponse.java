@@ -5,6 +5,6 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public class ImageUploadResponse {
+public class UploadImageResponse {
     private final String imageUrl;
 }

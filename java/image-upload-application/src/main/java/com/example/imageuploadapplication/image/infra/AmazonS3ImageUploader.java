@@ -3,9 +3,9 @@ package com.example.imageuploadapplication.image.infra;
 import java.io.InputStream;
 import java.net.URL;
 
-import com.example.imageuploadapplication.image.application.ImageUploadRequest;
-import com.example.imageuploadapplication.image.application.ImageUploadResponse;
 import com.example.imageuploadapplication.image.application.ImageUploader;
+import com.example.imageuploadapplication.image.application.UploadImageRequest;
+import com.example.imageuploadapplication.image.application.UploadImageResponse;
 
 import lombok.RequiredArgsConstructor;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -20,11 +20,11 @@ public class AmazonS3ImageUploader implements ImageUploader {
     private final String bucket;
 
     @Override
-    public ImageUploadResponse upload(ImageUploadRequest request) {
+    public UploadImageResponse upload(UploadImageRequest request) {
         PutObjectRequest putObjectRequest = createPutObjectRequest(request.getFileName());
         putObject(putObjectRequest, request.getInputStream(), request.getFileSize());
         String imageUrl = getUrl(request.getFileName());
-        return new ImageUploadResponse(imageUrl);
+        return new UploadImageResponse(imageUrl);
     }
 
     private PutObjectRequest createPutObjectRequest(String fileName) {

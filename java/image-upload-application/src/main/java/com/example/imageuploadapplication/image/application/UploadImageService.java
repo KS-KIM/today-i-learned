@@ -19,8 +19,8 @@ public class UploadImageService {
         String originalFileName = Objects.requireNonNull(file.getOriginalFilename());
         String randomFileName = generateRandomFileName(originalFileName);
         InputStream inputStream = file.getInputStream();
-        ImageUploadResponse uploadedFileUrl = imageUploader.upload(
-                new ImageUploadRequest(inputStream, file.getSize(), randomFileName));
+        UploadImageResponse uploadedFileUrl = imageUploader.upload(
+                new UploadImageRequest(inputStream, file.getSize(), randomFileName));
         return uploadedFileUrl.getImageUrl();
     }
 
