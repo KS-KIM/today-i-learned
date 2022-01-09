@@ -1,8 +1,10 @@
 package com.example.imageuploadapplication.image.ui;
 
 import java.io.IOException;
+import java.net.URI;
 
 import org.springframework.http.MediaType;
+import org.springframework.http.MediaTypeFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,14 +26,16 @@ public class ImageController {
     private final DownloadImageService downloadImageService;
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadImage(MultipartFile file) throws IOException {
-        String url = uploadImageService.uploadImage(file);
-        return ResponseEntity.ok(url);
+    public ResponseEntity<Void> uploadImage(MultipartFile file) throws IOException {
+        String fileName = uploadImageService.uploadImage(file);
+        return ResponseEntity.created(URI.create(fileName)).build();
     }
 
-    @GetMapping(value = "/:fileName", produces = MediaType.IMAGE_JPEG_VALUE)
+    @GetMapping(value = "/{fileName}")
     public ResponseEntity<byte[]> readImage(@PathVariable String fileName) throws IOException {
         byte[] imageFile = downloadImageService.downloadImage(fileName);
-        return ResponseEntity.ok(imageFile);
+        MediaType mediaType = MediaTypeFactory.getMediaType(fileName)
+                .orElseThrow(() -> new IllegalArgumentException("올바르지 않은 파일 형식입니다."));
+        return ResponseEntity.ok().contentType(mediaType).body(imageFile);
     }
 }
