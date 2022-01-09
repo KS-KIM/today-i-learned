@@ -1,0 +1,9 @@
+cloud:
+  aws:
+    s3:
+      bucket: BUCKET_NAME
+    region:
+      static: REGION_NAME
+    credentials:
+      access-key: ACCESS_KEY
+      secret-key: SECRET_KEY
