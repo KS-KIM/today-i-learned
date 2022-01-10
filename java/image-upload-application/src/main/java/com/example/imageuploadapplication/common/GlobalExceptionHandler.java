@@ -3,6 +3,8 @@ package com.example.imageuploadapplication.common;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,6 +17,13 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice
 @RestController
 public class GlobalExceptionHandler {
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = ConstraintViolationException.class)
+    public ApiErrorResponse handleIllegalArgumentException(ConstraintViolationException exception) {
+        log.error(exception.getMessage());
+        return new ApiErrorResponse("요청이 올바르지 않습니다.");
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = IllegalArgumentException.class)
     public ApiErrorResponse handleIllegalArgumentException(IllegalArgumentException exception) {

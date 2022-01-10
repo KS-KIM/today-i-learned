@@ -11,7 +11,7 @@ import com.example.imageuploadapplication.image.application.ImageUploader;
 import com.example.imageuploadapplication.image.infra.InMemoryImageDownloader;
 import com.example.imageuploadapplication.image.infra.InMemoryImageUploader;
 
-@Profile({"local", "test"})
+@Profile({"test"})
 @Configuration
 public class InMemoryImageStorageConfiguration {
     @Bean

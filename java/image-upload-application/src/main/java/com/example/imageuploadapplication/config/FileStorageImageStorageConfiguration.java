@@ -9,7 +9,7 @@ import com.example.imageuploadapplication.image.application.ImageUploader;
 import com.example.imageuploadapplication.image.infra.FileStorageImageDownloader;
 import com.example.imageuploadapplication.image.infra.FileStorageImageUploader;
 
-@Profile("dev")
+@Profile({"dev", "local"})
 @Configuration
 public class FileStorageImageStorageConfiguration {
     @Bean
