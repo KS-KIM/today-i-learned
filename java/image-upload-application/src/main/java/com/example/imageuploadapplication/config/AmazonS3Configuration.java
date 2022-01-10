@@ -32,20 +32,21 @@ public class AmazonS3Configuration {
     private String bucket;
 
     @Bean
-    public ImageUploader imageUploader() {
-        return new AmazonS3ImageUploader(s3Client(), bucket);
-    }
-
-    @Bean
-    public ImageDownloader imageDownloader() {
-        return new AmazonS3ImageDownloader(s3Client(), bucket);
-    }
-
-    private S3Client s3Client() {
+    public S3Client s3Client() {
         return S3Client.builder()
                 .region(region())
                 .credentialsProvider(credentialProvider())
                 .build();
+    }
+
+    @Bean
+    public ImageUploader imageUploader(S3Client s3Client) {
+        return new AmazonS3ImageUploader(s3Client, bucket);
+    }
+
+    @Bean
+    public ImageDownloader imageDownloader(S3Client s3Client) {
+        return new AmazonS3ImageDownloader(s3Client, bucket);
     }
 
     private Region region() {

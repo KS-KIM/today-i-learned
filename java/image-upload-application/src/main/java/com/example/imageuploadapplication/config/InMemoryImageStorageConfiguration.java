@@ -14,15 +14,18 @@ import com.example.imageuploadapplication.image.infra.InMemoryImageUploader;
 @Profile({"local", "test"})
 @Configuration
 public class InMemoryImageStorageConfiguration {
-    private static final ConcurrentHashMap<String, byte[]> imageMap = new ConcurrentHashMap<>();
+    @Bean
+    public ConcurrentHashMap<String, byte[]> imageMap() {
+        return new ConcurrentHashMap<>();
+    }
 
     @Bean
-    public ImageUploader inMemoryImageUploader() {
+    public ImageUploader inMemoryImageUploader(ConcurrentHashMap<String, byte[]> imageMap) {
         return new InMemoryImageUploader(imageMap);
     }
 
     @Bean
-    public ImageDownloader imageDownloader() {
+    public ImageDownloader imageDownloader(ConcurrentHashMap<String, byte[]> imageMap) {
         return new InMemoryImageDownloader(imageMap);
     }
 }
